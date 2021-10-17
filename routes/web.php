@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\C_menu;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\C_user;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+//Route::get('/confirmarEliminar', [C_User::class, 'showConfirmarEliminar'])->middleware('auth');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
