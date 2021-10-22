@@ -15,6 +15,7 @@ class C_menu extends Controller
     {
         $this->menu=new M_menu();
         $this->menu=new M_user();
+        $this->middleware('auth');
     }
 
     

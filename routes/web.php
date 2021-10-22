@@ -20,6 +20,7 @@ use App\Http\Controllers\C_user;
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/menu', [App\Http\Controllers\HomeController::class, 'index']);
 
 
