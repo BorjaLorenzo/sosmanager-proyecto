@@ -3,6 +3,7 @@
 use App\Http\Controllers\C_menu;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\C_user;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------

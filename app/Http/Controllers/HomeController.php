@@ -24,7 +24,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //$dni=Auth::user()->dni;
-        return view('menu');
+       $rol=Auth::id();
+       
+        return view('menu_trabajador',['rol'=>$rol]);
+        // switch ($rol) {
+        //     case 'T':
+        //         return view('menu_adm',['rol'=>$rol]);
+        //         break;
+        //     case 'E':
+        //         return view('menu_encargado');
+        //         break;
+        //     case 'A':
+        //         return view('menu_adm');
+        //         break;
+        // }
     }
 }
