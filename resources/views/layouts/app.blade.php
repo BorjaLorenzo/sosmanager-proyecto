@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
 </head>
 <body>
     <div id="app">
@@ -79,5 +80,11 @@
             @yield('content')
         </main>
     </div>
+<script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        
+    });
+</script>
 </body>
 </html>

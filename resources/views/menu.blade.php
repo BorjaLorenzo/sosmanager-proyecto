@@ -3,7 +3,7 @@
 @section('content')
 <div class="container" style="background-color: rgba(0, 255, 255, 0.37)">
   administradores
-  <p>{{print $rol->rol}} </p>
+  <p>{{print $rol}} </p>
   <div class="row"><p></p></div>
     <div class="row justify-content-center">
         <div class="col-md-4">
