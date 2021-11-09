@@ -49,4 +49,10 @@ class User extends Authenticatable
     {
         return DB::table('users')->where('id', '=', $id)->get();
     }
+    public function getUsers(){
+        return DB::table('users')
+                    ->join('detalles_users','users.dni','=','detalles_users.dni')
+                    ->select('detalles_users.nombre','detalles_users.dni','detalles_users.grupo','detalles_users.asuntos_propios','users.rol','users.activo')
+                    ->get();
+    }
 }

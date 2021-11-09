@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+    protected $model_user;
     /**
      * Create a new controller instance.
      *
@@ -15,6 +17,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->model_user=new User();
     }
 
     /**
@@ -24,9 +27,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-       $rol=Auth::user();
+       $user=Auth::user();
 
-        return view('menu',['rol'=>$rol]);
+        return view('menu',['user'=>$user]);
         
+    }
+    public function showTrabajadores(){
+        $trabajadores=$this->model_user->getUsers();
+        return view('tabla_trabajadores',['trabajadores'=>$trabajadores,'usuario'=>Auth::user()]);
     }
 }

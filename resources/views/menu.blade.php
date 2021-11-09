@@ -2,8 +2,6 @@
 
 @section('content')
 <div class="container" style="background-color: rgba(0, 255, 255, 0.37)">
-  administradores
-  <p>{{print $rol}} </p>
   <div class="row"><p></p></div>
     <div class="row justify-content-center">
         <div class="col-md-4">
@@ -12,7 +10,7 @@
                 <div class="card-body">
                   <h5 class="card-title">Plantilla de trabajadores</h5>
                   <p class="card-text">Aqui puedes consultar una tabla con todos los trabajadores</p>
-                  <a href="#" class="btn btn-primary ">Continuar</a>
+                  <a href="<?= url('trabajadores')?>" class="btn btn-primary ">Continuar</a>
                 </div>
               </div>
         </div>
