@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     protected $model_user;
+    protected $model_servicio;
     /**
      * Create a new controller instance.
      *
@@ -18,6 +19,7 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
         $this->model_user=new User();
+        //$this->model_servicio=new Servicio();
     }
 
     /**
@@ -35,5 +37,8 @@ class HomeController extends Controller
     public function showTrabajadores(){
         $trabajadores=$this->model_user->getUsers();
         return view('tabla_trabajadores',['trabajadores'=>$trabajadores,'usuario'=>Auth::user()]);
+    }
+    public function showPartesServicio(){
+
     }
 }
