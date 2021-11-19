@@ -10,7 +10,7 @@
                 <div class="card-body">
                   <h5 class="card-title">Plantilla de trabajadores</h5>
                   <p class="card-text">Aqui puedes consultar una tabla con todos los trabajadores</p>
-                  <a href="<?= url('trabajadores')?>" class="btn btn-primary ">Continuar</a>
+                  <a href="{{ url('trabajadores')}}" class="btn btn-primary ">Continuar</a>
                 </div>
               </div>
         </div>
@@ -20,7 +20,7 @@
                 <div class="card-body">
                   <h5 class="card-title">Partes de servicio</h5>
                   <p class="card-text">Aqui puedes consultar tus partes de servicio</p>
-                  <a href="#" class="btn btn-primary">Continuar</a>
+                  <a href="{{url('servicios')}}" class="btn btn-primary">Continuar</a>
                 </div>
               </div>
         </div>
