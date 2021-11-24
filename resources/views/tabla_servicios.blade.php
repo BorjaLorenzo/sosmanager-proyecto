@@ -43,16 +43,19 @@
                                     <td>
                                         <div class="row">
                                             <div class="col-7">{{ strtoupper($p->nombre_trabajador) }}</div>
-                                            <div class="col-1"><button type="button"
-                                                    class="btn btn-secondary info offset-3" data-bs-toggle="modal"
-                                                    data-bs-target="#infoModal">
+
+                                            <div class="col-1">
+                                                <button type="button" value="{{ $p->dni_trabajador }}"
+                                                    class="btn btn-secondary pretrabajador offset-3" data-bs-toggle="modal"
+                                                    data-bs-target="#trabajadorModal">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                         fill="currentColor" class="bi bi-file-earmark-person-fill"
                                                         viewBox="0 0 16 16">
                                                         <path
                                                             d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm2 5.755V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-.245S4 12 8 12s5 1.755 5 1.755z" />
                                                     </svg>
-                                                </button></div>
+                                                </button>
+                                            </div>
                                         </div>
                                     </td>
                                 @endif
@@ -66,7 +69,7 @@
                                 @endif
 
                                 <td>
-                                    <button type="button" class="btn btn-info detalles" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-info predetalles" data-bs-toggle="modal"
                                         data-bs-target="#detallesModal">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                             class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -106,15 +109,17 @@
                                         <div class="row">
                                             <div class="col-7">{{ strtoupper($p->nombre_trabajador) }}</div>
                                             <div class="col-1"><button type="button"
-                                                    class="btn btn-secondary info offset-3" data-bs-toggle="modal"
-                                                    data-bs-target="#infoModal">
+                                                    value="{{ $p->dni_trabajador }}"
+                                                    class="btn btn-secondary offset-3 pretrabajador" data-bs-toggle="modal"
+                                                    data-bs-target="#trabajadorModal">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                         fill="currentColor" class="bi bi-file-earmark-person-fill"
                                                         viewBox="0 0 16 16">
                                                         <path
                                                             d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm2 5.755V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-.245S4 12 8 12s5 1.755 5 1.755z" />
                                                     </svg>
-                                                </button></div>
+                                                </button>
+                                            </div>
                                         </div>
                                     </td>
 
@@ -128,7 +133,7 @@
 
 
                                     <td>
-                                        <button type="button" class="btn btn-info detalles" data-bs-toggle="modal"
+                                        <button type="button" class="btn btn-info predetalles" data-bs-toggle="modal"
                                             data-bs-target="#detallesModal">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -173,21 +178,91 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="insertModalLabel">Nuevo Parte</h5>
+                            <h5 class="modal-title">Nuevo Parte</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-6">Nombre Trabajador:</div>
+                                    <div class="col-6"><input type="text" value="{{ $usuario->name }}" disabled
+                                            id="inombre"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">DNI Trabajador:</div>
+                                    <div class="col-6"><input type="text" value="{{ $usuario->dni }}" disabled
+                                            id="idni"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Fecha:</div>
+                                    <div class="col-6"><input type="date" class="insertar" value=""
+                                            id="ifecha" onkeydown="return false"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Hora:</div>
+                                    <div class="col-6"><input type="time" class="insertar" value=""
+                                            id="ihora" step="1" onkeydown="return false"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Tipo incidencia:</div>
+                                    <div class="col-6">
+                                        <select name="" id="itipo">
+                                            <option value="CURA">Cura</option>
+                                            <option value="AYUDA">Ayuda</option>
+                                            <option value="RESCATE">Rescate</option>
+                                            <option value="OTROS">Otros</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Puesto:</div>
+                                    <div class="col-6"><input type="number" class="insertar" min="1" value=""
+                                            id="ipuesto">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Nombre victima:</div>
+                                    <div class="col-6"><input type="text" class="insertar" value=""
+                                            id="ivictima"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Procedencia victima:</div>
+                                    <div class="col-6"><input type="text" class="insertar" value=""
+                                            id="iprocedencia"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Patologia:</div>
+                                    <div class="col-6"><input type="text" class="insertar" value=""
+                                            id="ipatologia"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Descripcion:</div>
+                                    <div class="col-6"><textarea class="insertar" id="idescripcion" cols="23"
+                                            rows="5" style="resize: none"></textarea></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Traslado en ambulacia:</div>
+                                    <div class="col-6">
+                                        <label class="switch">
+                                            <input type="checkbox" id="iambulancia">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row" id="errorInsertar" hidden>
+                                    <div class="col" style="color: red">Algunos de los campos esta incompletos,
+                                        rellenalos porfavor</div>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" id="confirmarInsertar">Confirmar</button>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -235,11 +310,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-6">Fecha:</div>
-                                    <div class="col-6"><input type="date" value="" id="fecha"></div>
+                                    <div class="col-6"><input type="date" value="" id="fecha"
+                                            onkeydown="return false"></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">Hora:</div>
-                                    <div class="col-6"><input type="time" value="" id="hora" step="1"></div>
+                                    <div class="col-6"><input type="time" value="" id="hora" step="1"
+                                            onkeydown="return false"></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">Tipo incidencia:</div>
@@ -254,8 +331,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-6">Puesto:</div>
-                                    <div class="col-6"><input type="number" class="editar" min="1" value=""
-                                            id="puesto">
+                                    <div class="col-6"><input type="number" class="editar" min="1"
+                                            value="" id="puesto">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -275,8 +352,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-6">Descripcion:</div>
-                                    <div class="col-6"><textarea class="editar" id="descripcion" cols="23"
-                                            rows="5" style="resize: none"></textarea></div>
+                                    <div class="col-6"><textarea class="editar" id="descripcion"
+                                            cols="23" rows="5" style="resize: none"></textarea></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">Traslado en ambulacia:</div>
@@ -301,12 +378,155 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="detallesModal" tabindex="-1" aria-labelledby="detallesModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar Parte</h5>
+                            <button type="button" class="btn-close cerrarEditar" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="editModalLabel">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-6">Incidencia numero:</div>
+                                    <div class="col-6"><input type="text" value="" disabled id="did"></div>
+                                </div>
+                                @if ($usuario->rol == 'A')
+                                    <div class="row">
+                                        <div class="col-6">Nombre Trabajador:</div>
+                                        <div class="col-6"><input type="text" value="" disabled id="dnombre">
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="row">
+                                    <div class="col-6">DNI Trabajador:</div>
+                                    <div class="col-6"><input type="text" value="" disabled id="ddni"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Fecha:</div>
+                                    <div class="col-6"><input type="date" value="" disabled id="dfecha"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Hora:</div>
+                                    <div class="col-6"><input type="time" value="" disabled id="dhora" step="1">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Tipo incidencia:</div>
+                                    <div class="col-6">
+                                        <select name="" id="dtipo" disabled>
+                                            <option value="CURA">Cura</option>
+                                            <option value="AYUDA">Ayuda</option>
+                                            <option value="RESCATE">Rescate</option>
+                                            <option value="OTROS">Otros</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Puesto:</div>
+                                    <div class="col-6"><input type="number" disabled min="1" value=""
+                                            id="dpuesto">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Nombre victima:</div>
+                                    <div class="col-6"><input type="text" disabled value="" id="dvictima"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Procedencia victima:</div>
+                                    <div class="col-6"><input type="text" disabled value="" id="dprocedencia">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Patologia:</div>
+                                    <div class="col-6"><input type="text" disabled value="" id="dpatologia"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Descripcion:</div>
+                                    <div class="col-6"><textarea disabled id="ddescripcion" cols="23" rows="5"
+                                            style="resize: none"></textarea></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Traslado en ambulacia:</div>
+                                    <div class="col-6">
+                                        <label class="switch">
+                                            <input type="checkbox" disabled id="dambulancia">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success cerrarEditar"
+                                data-bs-dismiss="modal">Continuar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="trabajadorModal" tabindex="-1" aria-labelledby="trabajadorModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Detalles Trabajador</h5>
+                            <button type="button" class="btn-close cerrarEditar" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="editModalLabel">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-6">Nombre:</div>
+                                    <div class="col-6"><input type="text" value="" disabled id="tnombre"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">DNI:</div>
+                                    <div class="col-6"><input type="text" value="" disabled id="tdni"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Grupo:</div>
+                                    <div class="col-6"><input type="number" value="" min="1" disabled id="tgrupo">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Rol:</div>
+                                    <div class="col-6">
+                                        <select name="" id="trol" disabled>
+                                            <option value="PATRON">PATRON</option>
+                                            <option value="SOCORRISTA">SOCORRISTA</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Asuntos propios:</div>
+                                    <div class="col-6">
+                                        <label class="switch">
+                                            <input type="checkbox" disabled id="tasuntos">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success cerrarEditar"
+                                data-bs-dismiss="modal">Continuar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script>
         $(function() {
             let idd;
-            $('table').DataTable();
+            $('table').DataTable({
+                "order": [
+                    [0, "desc"]
+                ]
+            });
             $('.preditar').click(function(e) {
                 e.preventDefault();
                 id = $(this).parent().parent().children().eq(0).text();
@@ -396,22 +616,144 @@
                 e.preventDefault();
                 $('#errorEditar').attr('hidden', true);
             });
-            $('.preliminar').click(function (e) { 
+            $('.preliminar').click(function(e) {
                 e.preventDefault();
                 idd = $(this).parent().parent().children().eq(0).text();
-                $('#exampleModalLabel').text('Eliminar Parte N°: '+idd+' ?');
+                $('#exampleModalLabel').text('Eliminar Parte N°: ' + idd + ' ?');
             });
-            $('#eliminar').click(function (e) { 
+            $('#eliminar').click(function(e) {
                 e.preventDefault();
                 $.ajax({
                     type: "post",
-                    url: "{{asset('helpers/delete_asistencia.php')}}",
-                    data: {idd:idd},
+                    url: "{{ asset('helpers/delete_asistencia.php') }}",
+                    data: {
+                        idd: idd
+                    },
                     dataType: "text",
-                    success: function (response) {
+                    success: function(response) {
                         location.reload();
                     }
                 });
+            });
+            $('.predetalles').click(function(e) {
+                e.preventDefault();
+                id = $(this).parent().parent().children().eq(0).text();
+                $.ajax({
+                    type: "post",
+                    url: "{{ asset('helpers/get_asistencia.php') }}",
+                    data: {
+                        id: id
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        $('#did').val(response.id);
+                        $('#dnombre').val(response.nombre_trabajador);
+                        $('#ddni').val(response.dni_trabajador);
+                        $('#dfecha').val(response.fecha);
+                        $('#dhora').val(response.hora);
+                        $('#dpuesto').val(response.puesto);
+                        $('#dvictima').val(response.nombre_victima);
+                        $('#dprocedencia').val(response.procedencia);
+                        $('#ddescripcion').val(response.descripcion);
+                        $('#dpatologia').val(response.patologia);
+
+                        if (response.tipo_incidencia == "CURA") {
+                            $('#dtipo option').eq(0).prop('selected', true);
+                        } else if (response.tipo_incidencia == "AYUDA") {
+                            $('#dtipo option').eq(1).prop('selected', true);
+                        } else if (response.tipo_incidencia == "RESCATE") {
+                            $('#dtipo option').eq(2).prop('selected', true);
+                        } else {
+                            $('#dtipo option').eq(3).prop('selected', true);
+                        }
+                        if (response.ambulancia == "SI") {
+                            $('#dambulancia').prop('checked', true);
+                        } else {
+                            $('#dambulancia').prop('checked', false);
+                        }
+                    }
+                });
+            });
+            $('.pretrabajador').click(function(e) {
+                e.preventDefault();
+                let dni = $(this).val();
+                $.ajax({
+                    type: "post",
+                    url: "{{ asset('helpers/get_trabajador.php') }}",
+                    data: {
+                        dni: dni
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        $('#tnombre').val(response.nombre);
+                        $('#tdni').val(response.dni);
+                        $('#tgrupo').val(response.grupo);
+                        if (response.rol == "PATRON") {
+                            $('#trol option').eq(0).prop('selected', true);
+                        } else {
+                            $('#trol option').eq(1).prop('selected', true);
+                        }
+                        $.ajax({
+                            type: "post",
+                            url: "{{ asset('helpers/get_rol.php') }}",
+                            data: {
+                                dni: dni
+                            },
+                            dataType: "json",
+                            success: function(response) {
+                                if (response.rol != 'S') {
+                                    $('#tasuntos').prop('checked', true);
+                                } else {
+                                    $('#tasuntos').prop('checked', false);
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+            $('#confirmarInsertar').click(function(e) {
+                e.preventDefault();
+                let campos = $('.insertar');
+                let interruptor = false;
+                let arr = [];
+                for (let i = 0; i < campos.length; i++) {
+                    if (campos.eq(i).val() == "") {
+                        $('#errorInsertar').attr('hidden', false);
+                        interruptor = true;
+                        break;
+                    }
+                }
+                if (!interruptor) {
+                    let nombre = $('#inombre').val();
+                    let dni = $('#idni').val();
+                    let fecha = $('#ifecha').val();
+                    let hora = $('#ihora').val();
+                    let puesto = $('#ipuesto').val();
+                    let victima = $('#ivictima').val();
+                    let procedencia = $('#iprocedencia').val();
+                    let descripcion = $('#idescripcion').val();
+                    let patologia = $('#ipatologia').val();
+                    let tipo = $('#itipo option:selected').val();
+                    let ambulancia;
+                    if ($('#iambulancia').prop('checked')) {
+                        ambulancia = "SI";
+                    } else {
+                        ambulancia = "NO";
+                    }
+                    arr.push(id, nombre, dni, fecha, hora, puesto, victima, procedencia, descripcion,
+                        patologia, tipo, ambulancia);
+                    $.ajax({
+                        type: "post",
+                        url: "{{ asset('helpers/insert_asistencia.php') }}",
+                        data: {
+                            arr: JSON.stringify(arr)
+                        },
+                        dataType: "text ",
+                        success: function(response) {
+                            location.reload();
+                        }
+                    });
+                }
             });
         });
     </script>
