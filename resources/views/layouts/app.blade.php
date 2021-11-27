@@ -132,7 +132,9 @@
                 </div>
             </div>
         </nav>
-
+        <div>
+            @yield('mensaje')
+        </div>
         <main class="py-4">
             @yield('content')
         </main>

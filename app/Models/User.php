@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
+use Exception as GlobalException;
 
 class User extends Authenticatable
 {
@@ -49,10 +50,39 @@ class User extends Authenticatable
     {
         return DB::table('users')->where('id', '=', $id)->get();
     }
-    public function getUsers(){
-        return DB::table('users')
-                    ->join('detalles_users','users.dni','=','detalles_users.dni')
-                    ->select('detalles_users.nombre','detalles_users.dni','detalles_users.grupo','detalles_users.asuntos_propios','users.rol','users.activo')
-                    ->get();
+    public function getUsers()
+    {
+        return DB::table('detalles_users')->get();
+    }
+    public function getRol($dni)
+    {
+        return DB::table('detalles_users')->where('dni', '=', $dni)->value('rol');
+    }
+    public function deleteUser($dni)
+    {
+        try {
+            DB::table('users')->where('dni', '=', $dni)->delete();
+            DB::table('detalles_users')->where('dni', '=', $dni)->update(['activo' => 'N']);
+            return true;
+        } catch (GlobalException $e) {
+            return false;
+        }
+        
+    }
+    public function updateUser($inputs)
+    {
+        try {
+            DB::table('users')->where('dni', '=', $inputs['old_dni'])->update(['name' =>$inputs['nombre'] ,'dni' => $inputs['dni']]);
+            if (isset($inputs['asuntos'])) {
+                $inputs['asuntos']='S';
+            } else {
+                $inputs['asuntos']='N';
+            }
+            DB::table('detalles_users')->where('dni', '=', $inputs['old_dni'])->update(['dni' => $inputs['dni'],'nombre' =>$inputs['nombre'],'grupo' =>$inputs['grupo'],'rol' => $inputs['rol'],'asuntos_propios' => $inputs['asuntos']]);
+            return true;
+        } catch (GlobalException $e) {
+            return false;
+        }
+        
     }
 }

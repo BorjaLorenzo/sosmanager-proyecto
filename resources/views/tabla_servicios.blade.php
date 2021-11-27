@@ -758,3 +758,6 @@
         });
     </script>
 @endsection
+@section('mensaje')
+    {{$mensaje}}
+@endsection

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-11-2021 a las 21:13:55
+-- Tiempo de generación: 27-11-2021 a las 21:21:01
 -- Versión del servidor: 10.4.19-MariaDB
 -- Versión de PHP: 8.0.7
 
@@ -44,17 +44,19 @@ CREATE TABLE `detalles_users` (
   `nombre` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `apellidos` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `grupo` int(11) NOT NULL,
-  `asuntos_propios` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL
+  `rol` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `asuntos_propios` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `activo` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `detalles_users`
 --
 
-INSERT INTO `detalles_users` (`dni`, `nombre`, `apellidos`, `grupo`, `asuntos_propios`) VALUES
-('12345678L', 'ruben', '-', 0, 'N'),
-('12345678M', 'PEPE', '-', 1, 'S'),
-('2342342f', 'pepe', '-', 0, 'S');
+INSERT INTO `detalles_users` (`dni`, `nombre`, `apellidos`, `grupo`, `rol`, `asuntos_propios`, `activo`) VALUES
+('12345678L', 'ruben', '-', 0, 'S', 'N', 'S'),
+('12345678M', 'PEPE', '-', 5, 'P', 'S', 'S'),
+('44243198F', 'Borja', '-', 0, 'A', 'S', 'S');
 
 -- --------------------------------------------------------
 
@@ -121,9 +123,10 @@ CREATE TABLE `partes_servicio` (
 --
 
 INSERT INTO `partes_servicio` (`id`, `nombre_trabajador`, `dni_trabajador`, `fecha`, `hora`, `descripcion`, `tipo_incidencia`, `puesto`, `nombre_victima`, `patologia`, `procedencia`, `ambulancia`, `activo`) VALUES
-(2, 'pepe', '12345678M', '2021-11-19', '20:16:47', 'corte + betadine', 'CURA', 3, 'farrukito diaz', 'corte en el pie izquierdo', 'sevilla', 'NO', 'S'),
-(3, 'ruben', '12345678L', '2021-11-08', '10:45:47', 'pez arana + agua caliente', 'CURA', 1, 'Angela miranda', 'pez arana', 'almonte', 'NO', 'S'),
-(4, 'borja', '44243198F', '2021-10-12', '17:20:28', 'desmayo por subida de tension', 'AYUDA', 7, 'Alfonso perez', 'subida de tension', 'madrid', 'SI', 'S');
+(2, 'pepe', '12345678M', '2021-11-19', '20:16:47', 'corte + venda', 'CURA', 3, 'farrukito diaz', 'corte en el pie izquierdo', 'sevilla', 'SI', 'S'),
+(3, 'ruben', '12345678L', '2021-11-08', '10:45:47', 'pez arana + agua caliente', 'RESCATE', 1, 'Angela miranda', 'pez arana', 'conchinchina', 'NO', 'S'),
+(4, 'borja', '44243198F', '2021-10-12', '17:20:28', 'desmayo por subida de tension', 'AYUDA', 7, 'Alfonso perez', 'subida de tension', 'madrid', 'SI', 'N'),
+(5, 'borja', '44243198F', '2021-11-24', '18:14:39', 'ayuda a subir la rampa', 'AYUDA', 2, 'maria', 'silla ruedas', 'alcala', 'NO', 'S');
 
 -- --------------------------------------------------------
 
@@ -165,9 +168,7 @@ CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `rol` char(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dni` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `activo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -179,10 +180,8 @@ CREATE TABLE `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `rol`, `dni`, `activo`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'borja', 'borjalb98@gmail.com', 'A', '44243198F', 'S', NULL, '$2y$10$akCpg8JUx9VcCWwlmojGgukW/GifPTJYYw/DRckXVZ0RJtYctPFWO', NULL, '2021-10-22 14:23:58', '2021-10-22 14:23:58'),
-(5, 'PEPE', 'elsuyo@gmail.com', 'P', '12345678M', 'S', NULL, '$2y$10$4/OTmueze7fmqDoSkcEzsew2Vsf5o8vhuyh8GOFGlKNZZLixYzo3.', NULL, '2021-11-07 13:35:55', '2021-11-07 13:35:55'),
-(6, 'ruben', 'nadie@gmail.com', 'P', '12345678L', 'S', NULL, '$2y$10$KjnXocxeoUik4llKYL/QB.BrTBlTpNfLyGgMIlRXCe/h3aoog/6nS', NULL, '2021-11-07 16:00:15', '2021-11-07 16:00:15');
+INSERT INTO `users` (`id`, `name`, `email`, `dni`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'borja', 'borjalb98@gmail.com', '44243198F', NULL, '$2y$10$akCpg8JUx9VcCWwlmojGgukW/GifPTJYYw/DRckXVZ0RJtYctPFWO', NULL, '2021-10-22 14:23:58', '2021-10-22 14:23:58');
 
 --
 -- Disparadores `users`
@@ -272,7 +271,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `partes_servicio`
 --
 ALTER TABLE `partes_servicio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
