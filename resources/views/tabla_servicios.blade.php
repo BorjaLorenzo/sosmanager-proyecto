@@ -1,5 +1,14 @@
 @extends('layouts.app')
 @section('content')
+    @if ($usuario[0]->rol == '')
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p class="alert alert-warning" role="alert">Tu registro esta siendo verificado por un ADMINISTRADOR, cuando sea confirmado podras empezar a usar nuestros servicios!</p>
+                </div>
+            </div>
+        </div>
+    @else
     <div class="container">
         <div class="row">
             <div class="col-4">
@@ -20,7 +29,7 @@
                 <thead>
                     <tr>
                         <td>ID</td>
-                        @if ($usuario->rol == 'A')
+                        @if ($usuario[0]->rol == 'A')
                             <th>Nombre Trabajador</th>
                         @endif
                         <th>Fecha</th>
@@ -28,7 +37,7 @@
                         <th>Puesto</th>
                         <th>Tipo Incidencia</th>
                         <th>Traslado Ambulacia</th>
-                        @if ($usuario->rol == 'A')
+                        @if ($usuario[0]->rol == 'A')
                             <th>Activo</th>
                         @endif
                         <th>Opciones</th>
@@ -39,7 +48,7 @@
                         @if ($p->activo == 'S')
                             <tr>
                                 <td>{{ $p->id }}</td>
-                                @if ($usuario->rol == 'A')
+                                @if ($usuario[0]->rol == 'A')
                                     <td>
                                         <div class="row">
                                             <div class="col-7">{{ strtoupper($p->nombre_trabajador) }}</div>
@@ -64,7 +73,7 @@
                                 <td>{{ $p->puesto }}</td>
                                 <td>{{ $p->tipo_incidencia }}</td>
                                 <td>{{ $p->ambulancia }}</td>
-                                @if ($usuario->rol == 'A')
+                                @if ($usuario[0]->rol == 'A')
                                     <th>{{ $p->activo }}</th>
                                 @endif
 
@@ -78,7 +87,7 @@
                                                 d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                         </svg>
                                     </button>
-                                    @if ($usuario->rol == 'A')
+                                    @if ($usuario[0]->rol == 'A')
                                         <button type="button" class="btn btn-primary preditar" data-bs-toggle="modal"
                                             data-bs-target="#editModal"><svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                 height="16" fill="currentColor" class="bi bi-pencil-square"
@@ -102,7 +111,7 @@
 
                             </tr>
                         @else
-                            @if ($usuario->rol == 'A')
+                            @if ($usuario[0]->rol == 'A')
                                 <tr>
                                     <td>{{ $p->id }}</td>
                                     <td>
@@ -183,78 +192,81 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-6">Nombre Trabajador:</div>
-                                    <div class="col-6"><input type="text" value="{{ $usuario->name }}" disabled
-                                            id="inombre"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">DNI Trabajador:</div>
-                                    <div class="col-6"><input type="text" value="{{ $usuario->dni }}" disabled
-                                            id="idni"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Fecha:</div>
-                                    <div class="col-6"><input type="date" class="insertar" value=""
-                                            id="ifecha" onkeydown="return false"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Hora:</div>
-                                    <div class="col-6"><input type="time" class="insertar" value=""
-                                            id="ihora" step="1" onkeydown="return false"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Tipo incidencia:</div>
-                                    <div class="col-6">
-                                        <select name="" id="itipo">
-                                            <option value="CURA">Cura</option>
-                                            <option value="AYUDA">Ayuda</option>
-                                            <option value="RESCATE">Rescate</option>
-                                            <option value="OTROS">Otros</option>
-                                        </select>
+                            <form action="{{ url('insertar_parte') }}" method="post" id="insertar_parte">
+                                @csrf
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-6">Nombre Trabajador:</div>
+                                        <div class="col-6"><input name="inombre" type="text" value="{{ $usuario[0]->nombre }}" readonly
+                                                id="inombre"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">DNI Trabajador:</div>
+                                        <div class="col-6"><input name="idni" type="text" value="{{ $usuario[0]->dni }}" readonly
+                                                id="idni"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Fecha:</div>
+                                        <div class="col-6"><input name="ifecha" type="date" class="insertar" value=""
+                                                id="ifecha" onkeydown="return false"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Hora:</div>
+                                        <div class="col-6"><input name="ihora" type="time" class="insertar" value=""
+                                                id="ihora" step="1" onkeydown="return false"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Tipo incidencia:</div>
+                                        <div class="col-6">
+                                            <select name="itipo" id="itipo">
+                                                <option value="CURA">Cura</option>
+                                                <option value="AYUDA">Ayuda</option>
+                                                <option value="RESCATE">Rescate</option>
+                                                <option value="OTROS">Otros</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Puesto:</div>
+                                        <div class="col-6"><input name="ipuesto" type="number" class="insertar" min="1" value=""
+                                                id="ipuesto">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Nombre victima:</div>
+                                        <div class="col-6"><input name="ivictima" type="text" class="insertar" value=""
+                                                id="ivictima"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Procedencia victima:</div>
+                                        <div class="col-6"><input name="iprocedencia" type="text" class="insertar" value=""
+                                                id="iprocedencia"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Patologia:</div>
+                                        <div class="col-6"><input name="ipatologia" type="text" class="insertar" value=""
+                                                id="ipatologia"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Descripcion:</div>
+                                        <div class="col-6"><textarea name="idescripcion" class="insertar" id="idescripcion" cols="23"
+                                                rows="5" style="resize: none"></textarea></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Traslado en ambulacia:</div>
+                                        <div class="col-6">
+                                            <label class="switch">
+                                                <input name="iambulancia" type="checkbox" id="iambulancia">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="errorInsertar" hidden>
+                                        <div class="col" style="color: red">Algunos de los campos esta incompletos,
+                                            rellenalos porfavor</div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-6">Puesto:</div>
-                                    <div class="col-6"><input type="number" class="insertar" min="1" value=""
-                                            id="ipuesto">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Nombre victima:</div>
-                                    <div class="col-6"><input type="text" class="insertar" value=""
-                                            id="ivictima"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Procedencia victima:</div>
-                                    <div class="col-6"><input type="text" class="insertar" value=""
-                                            id="iprocedencia"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Patologia:</div>
-                                    <div class="col-6"><input type="text" class="insertar" value=""
-                                            id="ipatologia"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Descripcion:</div>
-                                    <div class="col-6"><textarea class="insertar" id="idescripcion" cols="23"
-                                            rows="5" style="resize: none"></textarea></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Traslado en ambulacia:</div>
-                                    <div class="col-6">
-                                        <label class="switch">
-                                            <input type="checkbox" id="iambulancia">
-                                            <span class="slider round"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row" id="errorInsertar" hidden>
-                                    <div class="col" style="color: red">Algunos de los campos esta incompletos,
-                                        rellenalos porfavor</div>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -273,7 +285,12 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id="exampleModalLabel">
-                            Estas seguro de que quieres eliminar a este parte de servicio?
+                            <form action="{{ url('eliminar_parte') }}" method="post" id="formEliminar">
+                                <p id="mensajeEliminar">Eliminar Parte N°:  </p>
+                                <input type="hidden" name="id" id="idd">
+                                @csrf
+                            </form>
+                            
                         </div>
                         <div class="modal-footer">
 
@@ -293,82 +310,86 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id="editModalLabel">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-6">Incidencia numero:</div>
-                                    <div class="col-6"><input type="text" value="" disabled id="id"></div>
-                                </div>
-                                @if ($usuario->rol == 'A')
+                            <form action="{{url('editar_parte')}}" method="post" id="formEditar">
+                                
+                                <div class="container">
                                     <div class="row">
-                                        <div class="col-6">Nombre Trabajador:</div>
-                                        <div class="col-6"><input type="text" value="" disabled id="nombre"></div>
+                                        <div class="col-6">Incidencia numero:</div>
+                                        <div class="col-6"><input type="text" value="" readonly id="id" name="id"></div>
                                     </div>
-                                @endif
-                                <div class="row">
-                                    <div class="col-6">DNI Trabajador:</div>
-                                    <div class="col-6"><input type="text" value="" disabled id="dni"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Fecha:</div>
-                                    <div class="col-6"><input type="date" value="" id="fecha"
-                                            onkeydown="return false"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Hora:</div>
-                                    <div class="col-6"><input type="time" value="" id="hora" step="1"
-                                            onkeydown="return false"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Tipo incidencia:</div>
-                                    <div class="col-6">
-                                        <select name="" id="tipo">
-                                            <option value="CURA">Cura</option>
-                                            <option value="AYUDA">Ayuda</option>
-                                            <option value="RESCATE">Rescate</option>
-                                            <option value="OTROS">Otros</option>
-                                        </select>
+                                    @if ($usuario[0]->rol == 'A')
+                                        <div class="row">
+                                            <div class="col-6">Nombre Trabajador:</div>
+                                            <div class="col-6"><input type="text" value="" readonly id="nombre" name="nombre"></div>
+                                        </div>
+                                    @endif
+                                    <div class="row">
+                                        <div class="col-6">DNI Trabajador:</div>
+                                        <div class="col-6"><input type="text" value="" readonly id="dni" name="dni"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Fecha:</div>
+                                        <div class="col-6"><input type="date" value="" id="fecha" name="fecha"
+                                                onkeydown="return false"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Hora:</div>
+                                        <div class="col-6"><input type="time" value="" id="hora" name="hora" step="1"
+                                                onkeydown="return false"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Tipo incidencia:</div>
+                                        <div class="col-6">
+                                            <select id="tipo" name="tipo">
+                                                <option value="CURA">Cura</option>
+                                                <option value="AYUDA">Ayuda</option>
+                                                <option value="RESCATE">Rescate</option>
+                                                <option value="OTROS">Otros</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Puesto:</div>
+                                        <div class="col-6"><input type="number" class="editar" min="1"
+                                                value="" id="puesto" name="puesto">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Nombre victima:</div>
+                                        <div class="col-6"><input type="text" class="editar" value=""
+                                                id="victima" name="victima"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Procedencia victima:</div>
+                                        <div class="col-6"><input type="text" class="editar" value=""
+                                                id="procedencia" name="procedencia"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Patologia:</div>
+                                        <div class="col-6"><input type="text" class="editar" value=""
+                                                id="patologia" name="patologia"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Descripcion:</div>
+                                        <div class="col-6"><textarea class="editar" id="descripcion" name="descripcion"
+                                                cols="23" rows="5" style="resize: none"></textarea></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Traslado en ambulacia:</div>
+                                        <div class="col-6">
+                                            <label class="switch">
+                                                <input type="checkbox" id="ambulancia" name="ambulancia">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="errorEditar" hidden>
+                                        <div class="col" style="color: red">Algunos de los campos esta incompletos,
+                                            rellenalos porfavor</div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-6">Puesto:</div>
-                                    <div class="col-6"><input type="number" class="editar" min="1"
-                                            value="" id="puesto">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Nombre victima:</div>
-                                    <div class="col-6"><input type="text" class="editar" value=""
-                                            id="victima"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Procedencia victima:</div>
-                                    <div class="col-6"><input type="text" class="editar" value=""
-                                            id="procedencia"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Patologia:</div>
-                                    <div class="col-6"><input type="text" class="editar" value=""
-                                            id="patologia"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Descripcion:</div>
-                                    <div class="col-6"><textarea class="editar" id="descripcion"
-                                            cols="23" rows="5" style="resize: none"></textarea></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Traslado en ambulacia:</div>
-                                    <div class="col-6">
-                                        <label class="switch">
-                                            <input type="checkbox" id="ambulancia">
-                                            <span class="slider round"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row" id="errorEditar" hidden>
-                                    <div class="col" style="color: red">Algunos de los campos esta incompletos,
-                                        rellenalos porfavor</div>
-                                </div>
-                            </div>
+                                @csrf
+                            </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger cerrarEditar"
@@ -393,7 +414,7 @@
                                     <div class="col-6">Incidencia numero:</div>
                                     <div class="col-6"><input type="text" value="" disabled id="did"></div>
                                 </div>
-                                @if ($usuario->rol == 'A')
+                                @if ($usuario[0]->rol == 'A')
                                     <div class="row">
                                         <div class="col-6">Nombre Trabajador:</div>
                                         <div class="col-6"><input type="text" value="" disabled id="dnombre">
@@ -496,6 +517,7 @@
                                         <select name="" id="trol" disabled>
                                             <option value="PATRON">PATRON</option>
                                             <option value="SOCORRISTA">SOCORRISTA</option>
+                                            <option value="ADMINISTRADOR">ADMINISTRADOR</option>
                                         </select>
                                     </div>
                                 </div>
@@ -580,36 +602,7 @@
                     }
                 }
                 if (!interruptor) {
-                    let id = $('#id').val();
-                    let nombre = $('#nombre').val();
-                    let dni = $('#dni').val();
-                    let fecha = $('#fecha').val();
-                    let hora = $('#hora').val();
-                    let puesto = $('#puesto').val();
-                    let victima = $('#victima').val();
-                    let procedencia = $('#procedencia').val();
-                    let descripcion = $('#descripcion').val();
-                    let patologia = $('#patologia').val();
-                    let tipo = $('#tipo option:selected').val();
-                    let ambulancia;
-                    if ($('#ambulancia').prop('checked')) {
-                        ambulancia = "SI";
-                    } else {
-                        ambulancia = "NO";
-                    }
-                    arr.push(id, nombre, dni, fecha, hora, puesto, victima, procedencia, descripcion,
-                        patologia, tipo, ambulancia);
-                    $.ajax({
-                        type: "post",
-                        url: "{{ asset('helpers/update_asistencia.php') }}",
-                        data: {
-                            arr: JSON.stringify(arr)
-                        },
-                        dataType: "text ",
-                        success: function(response) {
-                            location.reload();
-                        }
-                    });
+                    $('#formEditar').trigger('submit');
                 }
             });
             $('.cerrarEditar').click(function(e) {
@@ -619,21 +612,12 @@
             $('.preliminar').click(function(e) {
                 e.preventDefault();
                 idd = $(this).parent().parent().children().eq(0).text();
-                $('#exampleModalLabel').text('Eliminar Parte N°: ' + idd + ' ?');
+                $('#idd').val(idd);
+                $('#mensajeEliminar').text('Eliminar Parte N°:  '+idd+' ?');
             });
             $('#eliminar').click(function(e) {
                 e.preventDefault();
-                $.ajax({
-                    type: "post",
-                    url: "{{ asset('helpers/delete_asistencia.php') }}",
-                    data: {
-                        idd: idd
-                    },
-                    dataType: "text",
-                    success: function(response) {
-                        location.reload();
-                    }
-                });
+                $('#formEliminar').trigger('submit');
             });
             $('.predetalles').click(function(e) {
                 e.preventDefault();
@@ -688,14 +672,17 @@
                         $('#tnombre').val(response.nombre);
                         $('#tdni').val(response.dni);
                         $('#tgrupo').val(response.grupo);
-                        if (response.rol == "PATRON") {
+                        if (response.rol == "P") {
                             $('#trol option').eq(0).prop('selected', true);
-                        } else {
+                        } else if (response.rol == "S"){
                             $('#trol option').eq(1).prop('selected', true);
+                        }
+                        else {
+                            $('#trol option').eq(2).prop('selected', true);
                         }
                         $.ajax({
                             type: "post",
-                            url: "{{ asset('helpers/get_rol.php') }}",
+                            url: "{{ asset('helpers/get_trabajador.php') }}",
                             data: {
                                 dni: dni
                             },
@@ -724,40 +711,20 @@
                     }
                 }
                 if (!interruptor) {
-                    let nombre = $('#inombre').val();
-                    let dni = $('#idni').val();
-                    let fecha = $('#ifecha').val();
-                    let hora = $('#ihora').val();
-                    let puesto = $('#ipuesto').val();
-                    let victima = $('#ivictima').val();
-                    let procedencia = $('#iprocedencia').val();
-                    let descripcion = $('#idescripcion').val();
-                    let patologia = $('#ipatologia').val();
-                    let tipo = $('#itipo option:selected').val();
-                    let ambulancia;
-                    if ($('#iambulancia').prop('checked')) {
-                        ambulancia = "SI";
-                    } else {
-                        ambulancia = "NO";
-                    }
-                    arr.push(id, nombre, dni, fecha, hora, puesto, victima, procedencia, descripcion,
-                        patologia, tipo, ambulancia);
-                    $.ajax({
-                        type: "post",
-                        url: "{{ asset('helpers/insert_asistencia.php') }}",
-                        data: {
-                            arr: JSON.stringify(arr)
-                        },
-                        dataType: "text ",
-                        success: function(response) {
-                            location.reload();
-                        }
-                    });
+                    $('#insertar_parte').trigger('submit');
                 }
             });
         });
     </script>
+    @endif
 @endsection
 @section('mensaje')
-    {{$mensaje}}
+
+@if (isset($mensaje))
+@if ($mensaje)
+    <p class="alert alert-success" role="alert">{{$texto}}</p>
+@else
+    <p class="alert alert-danger" role="alert">{{$texto}}</p>
+@endif
+@endif
 @endsection

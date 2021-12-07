@@ -46,9 +46,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public static function getUsuario($id)
+    public static function getUserByDni($dni)
     {
-        return DB::table('users')->where('id', '=', $id)->get();
+        return DB::table('detalles_users')->where('dni', '=', $dni)->get();
     }
     public function getUsers()
     {

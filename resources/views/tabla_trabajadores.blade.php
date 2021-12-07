@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+    @if ($usuario[0]->rol == '')
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p class="alert alert-warning" role="alert">Tu registro esta siendo verificado por un ADMINISTRADOR, cuando sea confirmado podras empezar a usar nuestros servicios!</p>
+            </div>
+        </div>
+    </div>
+    @else
     <div class="container">
         <div class="row">
             <div class="col-4">
@@ -51,6 +60,10 @@
                                     @case('P')
                                         <td>PATRON</td>
                                     @break
+                                    @case('')
+                                        <td>Pendiente confirmacion</td>
+                                    @break
+                                    
                                 @endswitch
 
 
@@ -213,6 +226,7 @@
             });
         });
     </script>
+    @endif
 @endsection
 @section('mensaje')
     @if (isset($mensaje))

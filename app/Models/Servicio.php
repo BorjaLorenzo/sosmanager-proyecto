@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Stmt\TryCatch;
+use Exception as GlobalException;
+use Illuminate\Database\QueryException;
 
 class Servicio extends Model
 {
@@ -19,24 +21,67 @@ class Servicio extends Model
     public function getServicios(){
         return DB::table('partes_servicio')->get();
     }
-    public function setServicio($nombreT,$dniT,$fecha,$hora,$descripcion,$tipo,$puesto,$nombreV,$patologia,$procedencia,$ambulancia){
+    public function insertServicio($inputs){
         try {
+            if (isset($inputs['iambulancia'])) {
+                $inputs['iambulancia']='SI';
+            } else {
+                $inputs['iambulancia']='NO';
+            }
             DB::table('partes_servicio')->insert([
-                'nombre_trabajador'=>$nombreT,
-                'dni_trabajador'=>$dniT,
-                'fecha'=>$fecha,
-                'hora'=>$hora,
-                'descripcion'=>$descripcion,
-                'tipo_incidencia'=>$tipo,
-                'puesto'=>$puesto,
-                'nombre_victima'=>$nombreV,
-                'patologia'=>$patologia,
-                'procedencia'=>$procedencia,
-                'ambulancia'=>$ambulancia
+                'nombre_trabajador'=>$inputs['inombre'],
+                'dni_trabajador'=>$inputs['idni'],
+                'fecha'=>$inputs['ifecha'],
+                'hora'=>$inputs['ihora'],
+                'tipo_incidencia'=>$inputs['itipo'],
+                'puesto'=>$inputs['ipuesto'],
+                'nombre_victima'=>$inputs['ivictima'],
+                'procedencia'=>$inputs['iprocedencia'],
+                'patologia'=>$inputs['ipatologia'],
+                'descripcion'=>$inputs['idescripcion'],
+                'ambulancia'=>$inputs['iambulancia'],
+                'activo'=>'S'
             ]);
-            return 'Parte de servicio guardado!';
-        } catch (Exception $e) {
-            return 'Ha habido un problema en la transaccion . . .';
+
+            return true;
+        } catch (GlobalException $e) {
+            echo $e;
+            return false;
+        }
+    }
+    public function updateServicio($inputs){
+        try {
+            if (isset($inputs['ambulancia'])) {
+                $inputs['ambulancia']='SI';
+            } else {
+                $inputs['ambulancia']='NO';
+            }
+            DB::table('partes_servicio')->where('dni_trabajador',$inputs['dni'])->update([
+                'fecha'=>$inputs['fecha'],
+                'hora'=>$inputs['hora'],
+                'descripcion'=>$inputs['descripcion'],
+                'tipo_incidencia'=>$inputs['tipo'],
+                'puesto'=>$inputs['puesto'],
+                'nombre_victima'=>$inputs['victima'],
+                'procedencia'=>$inputs['procedencia'],
+                'patologia'=>$inputs['patologia'],
+                'descripcion'=>$inputs['descripcion'],
+                'ambulancia'=>$inputs['ambulancia']
+            ]);
+            return true;
+        } catch (GlobalException $e) {
+            echo $e;
+            return false;
+        }
+    }
+    public function deleteServicio($inputs)
+    {
+        try {
+            DB::table('partes_servicio')->where('id', $inputs['id'])->update(['activo' => 'N']);
+            return true;
+        } catch (GlobalException $e) {
+            echo $e;
+            return false;
         }
         
     }

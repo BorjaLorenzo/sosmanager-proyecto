@@ -8,5 +8,6 @@
 </head>
 <body>
     <p>{{$variable}}</p>
+    
 </body>
 </html>

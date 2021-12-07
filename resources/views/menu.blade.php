@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+@if ($usuario[0]->rol == '')
+<div class="container">
+  <div class="row">
+      <div class="col">
+          <p class="alert alert-warning" role="alert">Tu registro esta siendo verificado por un ADMINISTRADOR, cuando sea confirmado podras empezar a usar nuestros servicios!</p>
+      </div>
+  </div>
+</div>
+@else
 <div class="container" style="background-color: rgba(0, 255, 255, 0.37)">
   <div class="row"><p></p></div>
     <div class="row justify-content-center">
@@ -50,4 +59,5 @@
     </div>
     <div class="row"><p></p></div>
 </div>
+@endif
 @endsection
