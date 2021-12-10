@@ -67,7 +67,6 @@ class User extends Authenticatable
         } catch (GlobalException $e) {
             return false;
         }
-        
     }
     public function updateUser($inputs)
     {
@@ -83,6 +82,31 @@ class User extends Authenticatable
         } catch (GlobalException $e) {
             return false;
         }
-        
+    }
+    public function getSinRol(){
+        try {
+            return DB::table('detalles_users')->where('rol', '')->get();
+        } catch (GlobalException $e) {
+            return false;
+        }
+    }
+    public function deleteNuevoTrabajador($inputs){
+        try {
+            DB::table('detalles_users')->where('dni', $inputs['dni'])->delete();
+            DB::table('users')->where('dni', $inputs['dni'])->delete();
+            return true;
+        } catch (GlobalException $e) {
+            echo $e;
+            return false;
+        }
+    }
+    public function confirmarNuevoTrabajador($inputs){
+        try {
+            DB::table('detalles_users')->where('dni', $inputs['dni'])->update(['grupo' =>$inputs['grupo'] ,'rol' => $inputs['rol']]);
+            return true;
+        } catch (GlobalException $e) {
+            echo $e;
+            return false;
+        }
     }
 }

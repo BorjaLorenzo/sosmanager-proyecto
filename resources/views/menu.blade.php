@@ -39,7 +39,7 @@
                 <div class="card-body">
                   <h5 class="card-title">Tabla de mareas</h5>
                   <p class="card-text">Aqui puedes consultar la tabla de mareas</p>
-                  <a href="#" class="btn btn-primary">Continuar</a>
+                  <a href="{{url('web')}}" class="btn btn-primary">Continuar</a>
                 </div>
               </div>
         </div>
@@ -52,7 +52,7 @@
                 <div class="card-body">
                   <h5 class="card-title">Partes de limpieza</h5>
                   <p class="card-text">Una tabla que contiene los partes de limpieza</p>
-                  <a href="#" class="btn btn-primary">Continuar</a>
+                  <a href="{{url('web')}}" class="btn btn-primary">Continuar</a>
                 </div>
               </div>
         </div>

@@ -35,7 +35,7 @@ class HomeController extends Controller
     public function showTrabajadores()
     {
         $trabajadores = $this->user->getUsers();
-        return view('tabla_trabajadores', ['trabajadores' => $trabajadores, 'rol' => $this->user->getRol(Auth::user()->dni),'texto'=>'','usuario' => $this->user->getUserByDni(Auth::user()->dni)]);
+        return view('tabla_trabajadores', ['trabajadores' => $trabajadores, 'rol' => $this->user->getRol(Auth::user()->dni), 'texto' => '', 'usuario' => $this->user->getUserByDni(Auth::user()->dni)]);
     }
     public function showServicios()
     {
@@ -44,7 +44,7 @@ class HomeController extends Controller
         } else {
             $partes = $this->servicio->getServiciosByUser(Auth::user()->dni);
         }
-        return view('tabla_servicios', ['usuario' => $this->user->getUserByDni(Auth::user()->dni), 'partes' => $partes, 'texto'=>'']);
+        return view('tabla_servicios', ['usuario' => $this->user->getUserByDni(Auth::user()->dni), 'partes' => $partes, 'texto' => '']);
     }
     public function eliminar_trabajador(Request $request)
     {
@@ -66,7 +66,7 @@ class HomeController extends Controller
     }
     public function editar_trabajador(Request $request)
     {
-        $mensaje=$this->user->updateUser($request->collect());
+        $mensaje = $this->user->updateUser($request->collect());
         if ($mensaje) {
             $texto = 'Usuario editado correctamente';
         } else {
@@ -75,15 +75,16 @@ class HomeController extends Controller
 
         $trabajadores = $this->user->getUsers();
         return view('tabla_trabajadores', [
-            'trabajadores' => $trabajadores, 
-            'rol' => $this->user->getRol(Auth::user()->dni), 
+            'trabajadores' => $trabajadores,
+            'rol' => $this->user->getRol(Auth::user()->dni),
             'mensaje' => $mensaje,
-            'texto'=>$texto,
+            'texto' => $texto,
             'usuario' => $this->user->getUserByDni(Auth::user()->dni)
         ]);
     }
-    public function insertar_parte(Request $request){
-        $mensaje=$this->servicio->insertServicio($request->collect());
+    public function insertar_parte(Request $request)
+    {
+        $mensaje = $this->servicio->insertServicio($request->collect());
         if ($mensaje) {
             $texto = 'Parte de servicio realizado correctamente';
         } else {
@@ -95,11 +96,12 @@ class HomeController extends Controller
         } else {
             $partes = $this->servicio->getServiciosByUser(Auth::user()->dni);
         }
-        return view('tabla_servicios', ['usuario' => $this->user->getUserByDni(Auth::user()->dni), 'partes' => $partes, 'mensaje' => $mensaje,'texto'=>$texto]);
+        return view('tabla_servicios', ['usuario' => $this->user->getUserByDni(Auth::user()->dni), 'partes' => $partes, 'mensaje' => $mensaje, 'texto' => $texto]);
         // return view('test',['variable'=>$mensaje]);
     }
-    public function editar_parte(Request $request){
-        $mensaje=$this->servicio->updateServicio($request->collect());
+    public function editar_parte(Request $request)
+    {
+        $mensaje = $this->servicio->updateServicio($request->collect());
         if ($mensaje) {
             $texto = 'Servicio editado correctamente';
         } else {
@@ -111,10 +113,11 @@ class HomeController extends Controller
         } else {
             $partes = $this->servicio->getServiciosByUser(Auth::user()->dni);
         }
-        return view('tabla_servicios', ['usuario' => $this->user->getUserByDni(Auth::user()->dni), 'partes' => $partes, 'mensaje' => $mensaje,'texto'=>$texto]);
+        return view('tabla_servicios', ['usuario' => $this->user->getUserByDni(Auth::user()->dni), 'partes' => $partes, 'mensaje' => $mensaje, 'texto' => $texto]);
     }
-    public function eliminar_parte(Request $request){
-        $mensaje=$this->servicio->deleteServicio($request->collect());
+    public function eliminar_parte(Request $request)
+    {
+        $mensaje = $this->servicio->deleteServicio($request->collect());
         if ($mensaje) {
             $texto = 'Servicio eliminado correctamente';
         } else {
@@ -126,6 +129,38 @@ class HomeController extends Controller
         } else {
             $partes = $this->servicio->getServiciosByUser(Auth::user()->dni);
         }
-        return view('tabla_servicios', ['usuario' => $this->user->getUserByDni(Auth::user()->dni), 'partes' => $partes, 'mensaje' => $mensaje,'texto'=>$texto]);
+        return view('tabla_servicios', ['usuario' => $this->user->getUserByDni(Auth::user()->dni), 'partes' => $partes, 'mensaje' => $mensaje, 'texto' => $texto]);
+    }
+    public function showNuevosTrabajadores()
+    {
+        $trabajadores = $this->user->getSinRol();
+        return view('tabla_nuevos_trabajadores', ['trabajadores' => $trabajadores, 'rol' => $this->user->getRol(Auth::user()->dni), 'texto' => '', 'usuario' => $this->user->getUserByDni(Auth::user()->dni)]);
+    }
+    public function eliminar_nuevo_trabajador(Request $request)
+    {
+        $mensaje = $this->user->deleteNuevoTrabajador($request->collect());
+        if ($mensaje) {
+            $texto = 'Usuario eliminado correctamente';
+        } else {
+            $texto = 'Ha ocurrido un problema durante el proceso, intentalo de nuevo';
+        }
+
+        $trabajadores = $this->user->getSinRol();
+
+        return view('tabla_nuevos_trabajadores', ['trabajadores' => $trabajadores, 'rol' => $this->user->getRol(Auth::user()->dni), 'texto' => $texto,'mensaje'=>$mensaje, 'usuario' => $this->user->getUserByDni(Auth::user()->dni)]);
+    }
+    public function confirmar_nuevo_trabajador(Request $request){
+        $mensaje = $this->user->confirmarNuevoTrabajador($request->collect());
+        if ($mensaje) {
+            $texto = 'Usuario editado correctamente';
+        } else {
+            $texto = 'Ha ocurrido un problema durante el proceso, intentalo de nuevo';
+        }
+
+        $trabajadores = $this->user->getSinRol();
+        return view('tabla_nuevos_trabajadores', ['trabajadores' => $trabajadores, 'rol' => $this->user->getRol(Auth::user()->dni), 'texto' => $texto,'mensaje'=>$mensaje, 'usuario' => $this->user->getUserByDni(Auth::user()->dni)]);
+    }
+    public function web(){
+        return view('web');
     }
 }
